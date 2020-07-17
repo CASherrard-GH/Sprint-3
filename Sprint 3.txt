@@ -1,0 +1,244 @@
+import pymysql
+import mysql.connector
+import xlrd 
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="All_Products"
+    )
+
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE TABLE Chips_Type (Chips VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Cooldrink_Type (Cooldrinks VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Chocolate_Type (Chocolate VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Pie_Type (Pies VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Fruit_Type (Fruit VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Cupcake_Type (Cupcakes VARCHAR(250), Number INTEGER(99))")
+#mycursor.execute("CREATE TABLE Veggie_Type (Veggies VARCHAR(250), Number INTEGER(99))")
+
+#mycursor.execute("CREATE DATABASE All_Products")
+
+#mycursor.execute("SHOW DATABASES")
+
+#for db in mycursor:
+#    print(db)
+mycursor.execute("DELETE FROM Chips_Type")
+mycursor.execute("DELETE FROM Cooldrink_Type")
+mycursor.execute("DELETE FROM Chocolate_Type")
+mycursor.execute("DELETE FROM Pie_Type")
+mycursor.execute("DELETE FROM Fruit_Type")
+mycursor.execute("DELETE FROM Cupcake_Type")
+mycursor.execute("DELETE FROM Veggie_Type")
+
+
+sqlFormula = "INSERT INTO Chips_Type (Chips, Number) VALUES (%s, %s)"
+Chips_Type = [("Simba", 1),
+              ("Lays", 2)]
+mycursor.executemany(sqlFormula, Chips_Type)
+
+
+sqlFormula = "INSERT INTO Cooldrink_Type (Cooldrinks, Number) VALUES (%s, %s)"
+Cooldrink_Type = [("Coke", 1),
+                  ("Fanta", 2)]
+mycursor.executemany(sqlFormula, Cooldrink_Type)
+
+
+
+sqlFormula = "INSERT INTO Chocolate_Type (Chocolate, Number) VALUES (%s, %s)"
+Chocolate_Type = [("Cadbury", 1),
+                  ("Tex", 2)]
+mycursor.executemany(sqlFormula, Chocolate_Type)
+
+
+sqlFormula = "INSERT INTO Pie_Type (Pies, Number) VALUES (%s, %s)"
+Pie_Type = [("Pepper Steak", 1),
+            ("Chicken", 2)]
+mycursor.executemany(sqlFormula, Pie_Type)
+
+
+sqlFormula = "INSERT INTO Fruit_Type (Fruit, Number) VALUES (%s, %s)"
+Fruit_Type = [("Pear", 1),
+              ("Apple", 2),
+              ("Orange", 3)]
+mycursor.executemany(sqlFormula, Fruit_Type)
+
+
+
+sqlFormula = "INSERT INTO Cupcake_Type (Cupcakes, Number) VALUES (%s, %s)"
+Cupcake_Type = [("Vanilla", 1),
+               ("Chocolate", 2)]
+mycursor.executemany(sqlFormula, Cupcake_Type)
+mydb.commit()
+
+
+sqlFormula = "INSERT INTO Veggie_Type (Veggies, Number) VALUES (%s, %s)"
+Veggie_Type = [("Spinach", 1),
+              ("Cabbage", 2)]
+mycursor.executemany(sqlFormula, Veggie_Type)
+
+mydb.commit()
+
+title_input = input("""Your options to maniplulate All_Products Database is:
+1. Enter new column
+2. Enter new product
+> """)
+
+if title_input == "1":
+    where_input = input("""Where woudld you like to insert the Colomn?
+        1. Chips_Type
+        2. Cooldrinks_Type
+        3. Chocolate_Type
+        4. Pies_Type
+        5. Fruit_ Type
+        6. Cupcakes_Type
+        7. Veggies_Type
+
+        Enter number:
+        > """)
+    
+    if where_input == "1":
+        what_input = input("What should the table be called?")
+        mycursor.execute(f"ALTER TABLE Chips_type ADD {what_input} VARCHAR(250) NOT NULL")
+    
+    if where_input == "2":
+        what_input = input("What should the table be called?")
+        mycursor.execute(f"ALTER TABLE Cooldrink_type ADD {what_input} VARCHAR(250) NOT NULL")
+    
+    if where_input == "3":
+        what_input = input("What should the table be called?")
+        mycursor.execute("ALTER TABLE Chocolates_type ADD New_Column VARCHAR(250) NOT NULL")
+    
+    if where_input == "4":
+        what_input = input("What should the table be called?")
+        mycursor.execute("ALTER TABLE Pies_type ADD New_Column VARCHAR(250) NOT NULL")
+    
+    if where_input == "5":
+        what_input = input("What should the table be called?")
+        mycursor.execute("ALTER TABLE Fruit_type ADD New_Column VARCHAR(250) NOT NULL")
+    
+    if where_input == "6":
+        what_input = input("What should the table be called?")
+        mycursor.execute("ALTER TABLE Cupcakes_type ADD New_Column VARCHAR(250) NOT NULL")
+    
+    if where_input == "7":
+        what_input = input("What should the table be called?")
+        mycursor.execute("ALTER TABLE Veggies_type ADD New_Column VARCHAR(250) NOT NULL")
+                           
+        
+    
+
+if title_input == "2":
+    amount_input = input("""How many entries would you like to make?
+    Enter number:
+    > """)
+    
+    if title_input == "2":
+        main_input = input("""What Table Would you like to change?
+        1. Chips_Type
+        2. Cooldrinks_Type
+        3. Chocolate_Type
+        4. Pies_Type
+        5. Fruit_ Type
+        6. Cupcakes_Type
+        7. Veggies_Type
+
+        Enter number:
+        > """)
+   
+    
+    if main_input == "1":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Chips Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Chips_Type (Chips, Number) VALUES (%s, %s)"
+            Chips_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Chips_Type)
+            #sqlformula (sequel injection)
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
+    
+    
+    if main_input == "2":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Coldrinks Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Cooldrink_Type (Cooldrinks, Number) VALUES (%s, %s)"
+            Cooldrink_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Cooldrink_Type)
+ 
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
+            
+            
+    if main_input == "3":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Chocolate Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Chips_Type (Chips, Number) VALUES (%s, %s)"
+            Chips_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Chips_Type)
+
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
+            
+            
+    if main_input == "4":
+        scndinput = input("""Enter New Pie Product Name: 
+        >""")   
+        sqlFormula = "INSERT INTO Pie_Type (Pies, Number) VALUES (%s, %s)"
+        Pie_Type = [(scndinput, 3+i)]
+        mycursor.executemany(sqlFormula, Pie_Type)
+
+        mydb.commit()
+        scndinput = "" 
+
+        
+    if main_input == "5":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Fruit Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Fruit_Type (Fruit, Number) VALUES (%s, %s)"
+            Fruit_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Fruit_Type)
+
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
+            
+            
+    if main_input == "6":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Cupcake Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Cupcake_Type (Cupcakes, Number) VALUES (%s, %s)"
+            Cupcake_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Cupcake_Type)
+
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
+            
+            
+    if main_input == "7":
+        i = 0
+        while i < int(amount_input): 
+            scndinput = input("""Enter New Veggie Product Name: 
+        >""")        
+            sqlFormula = "INSERT INTO Veggie_Type (Veggies, Number) VALUES (%s, %s)"
+            Chips_Type = (scndinput, 3+i)
+            mycursor.execute(sqlFormula, Chips_Type)
+
+            mydb.commit()     
+            scndinput = ""  
+            i+=1
